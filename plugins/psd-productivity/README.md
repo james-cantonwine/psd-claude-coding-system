@@ -2,7 +2,7 @@
 
 **38 productivity workflows + 1 agent for Peninsula School District**
 
-Version: 2.25.0
+Version: 2.25.1
 
 Author: Kris Hagel (hagelk@psd401.net)
 
@@ -17,6 +17,8 @@ Author: Kris Hagel (hagelk@psd401.net)
 # Install this plugin
 /plugin install psd-productivity
 ```
+
+**Prerequisite:** [bun](https://bun.sh) on your `PATH`. The `n8n-docs` MCP server starts with `bunx`, and several skills run `bun` scripts; without it, `n8n-docs` fails to start.
 
 ---
 
