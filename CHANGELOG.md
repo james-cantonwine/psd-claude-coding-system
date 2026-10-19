@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **GitHub label taxonomy** documented per routine and pre-created across all three target repos: `triaged-from-freshservice`; `lfg-ready` / `lfg-in-progress` / `lfg-pr-open` / `lfg-blocked` / `lfg-skip`; `pr-fix-stuck` / `pr-fix-done` / `pr-fix-skip`. Designed for mobile-tap workflows from GitHub's app.
   - **Pattern 1 validation pilot** at `routine-pilots/agent-discovery-check/` (since removed after validation) — confirmed via pilot fires that project-scope `.claude/agents/*.md` AND user-scope `~/.claude/agents/*.md` written by setup are auto-discovered at routine session start, and the env setup script re-runs on every fire with a fresh HOME.
 
+## [2.35.4] - 2026-10-19
+
+### Security
+- **psd-productivity `n8n-instance` MCP proxy** (2.25.3) — the n8n bearer token no longer appears in the process list. `n8n-mcp-proxy.sh` now passes the single-quoted header `Authorization: Bearer ${N8N_MCP_TOKEN}` and exports the variable; `mcp-remote@0.15.1` substitutes `${VAR}` in header values from its own environment. Verified against a local mock MCP endpoint (header received; `ps -axww` shows only the placeholder); not checked against the live n8n instance. Details in #108.
+- **Accepted risk — psd-productivity `documenso` MCP proxy: the API key is still visible in argv.** `@documenso/sdk-typescript@0.9.1` (latest on 2026-10-19) only sends a key passed as `--api-key`; `mcp start` sets `apiKey` to `flags["api-key"] ?? ""`, which defeats the SDK's `DOCUMENSO_API_KEY` fallback (confirmed against a local mock API: env-only sent no `Authorization` header). Any local user can read the key with `ps` while the server runs. No code change; the script comment records the limit. Revisit when a newer SDK release reads the key from the environment.
+
 ## [2.35.3] - 2026-10-19
 
 ### Security

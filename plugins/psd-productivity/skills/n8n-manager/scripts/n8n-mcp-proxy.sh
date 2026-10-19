@@ -54,4 +54,9 @@ else
   MCP_URL="https://${N8N_HOST}/mcp-server/http"
 fi
 
-exec bunx mcp-remote@0.15.1 "$MCP_URL" --header "Authorization: Bearer $N8N_MCP_TOKEN"
+# Pass the header with a literal ${N8N_MCP_TOKEN} placeholder (single quotes keep the
+# shell from expanding it). mcp-remote substitutes ${VAR} in header values from its own
+# environment, which exec passes down — so the token never appears in argv / `ps`.
+# The 0.15.1 pin is load-bearing: re-check ${VAR} header substitution before bumping it.
+export N8N_MCP_TOKEN
+exec bunx mcp-remote@0.15.1 "$MCP_URL" --header 'Authorization: Bearer ${N8N_MCP_TOKEN}'
